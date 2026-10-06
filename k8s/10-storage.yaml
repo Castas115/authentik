@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: authentik-postgres
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes: ["ReadWriteOnce"]
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  claimRef:
+    namespace: authentik
+    name: authentik-postgres
+  hostPath:
+    path: /opt/authentik/postgres
+    type: DirectoryOrCreate
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values: ["pc2"]
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: authentik-postgres
+  namespace: authentik
+spec:
+  accessModes: ["ReadWriteOnce"]
+  storageClassName: ""
+  volumeName: authentik-postgres
+  resources:
+    requests:
+      storage: 10Gi

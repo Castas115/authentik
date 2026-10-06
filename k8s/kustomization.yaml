@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: authentik
+
+resources:
+  - 10-storage.yaml
+  - 20-sealed-secret.yaml
+  - 30-postgres.yaml
+  - 40-redis.yaml
+  - 50-authentik-server.yaml
+  - 60-authentik-worker.yaml
+
+commonLabels:
+  app.kubernetes.io/part-of: authentik

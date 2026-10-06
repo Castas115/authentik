@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: authentik-postgres
+  namespace: authentik
+spec:
+  serviceName: authentik-postgres
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authentik-postgres
+  template:
+    metadata:
+      labels:
+        app: authentik-postgres
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: pc2
+      containers:
+        - name: postgres
+          image: docker.io/library/postgres:16-alpine
+          envFrom:
+            - secretRef:
+                name: authentik-secrets
+          env:
+            - { name: PGDATA, value: /var/lib/postgresql/data/pgdata }
+          ports:
+            - name: postgres
+              containerPort: 5432
+          volumeMounts:
+            - { name: data, mountPath: /var/lib/postgresql/data }
+          resources:
+            requests: { cpu: 100m, memory: 256Mi }
+            limits: { memory: 1Gi }
+          readinessProbe:
+            exec:
+              command: ["pg_isready", "-U", "authentik"]
+            initialDelaySeconds: 10
+            periodSeconds: 10
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: authentik-postgres
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: authentik-postgres
+  namespace: authentik
+spec:
+  selector:
+    app: authentik-postgres
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: postgres
