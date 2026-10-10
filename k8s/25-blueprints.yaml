@@ -4,6 +4,17 @@ metadata:
   name: authentik-blueprints
   namespace: authentik
 data:
+  brand.yaml: |
+    version: 1
+    metadata:
+      name: brand-domain
+    entries:
+      - model: authentik_brands.brand
+        identifiers:
+          default: true
+        state: present
+        attrs:
+          domain: auth.home
   immich.yaml: |
     version: 1
     metadata:
