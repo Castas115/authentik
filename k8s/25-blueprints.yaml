@@ -117,3 +117,35 @@ data:
           name: ArgoCD
           slug: argocd
           provider: !KeyOf argocd-provider
+  forwardauth.yaml: |
+    version: 1
+    metadata:
+      name: forwardauth-proxy
+    entries:
+      - model: authentik_providers_proxy.proxyprovider
+        id: forwardauth-provider
+        identifiers:
+          name: forwardauth
+        state: present
+        attrs:
+          name: forwardauth
+          authorization_flow: !Find [authentik_flows.flow, [slug, default-provider-authorization-implicit-consent]]
+          invalidation_flow: !Find [authentik_flows.flow, [slug, default-provider-invalidation-flow]]
+          mode: forward_domain
+          external_host: https://auth.home
+          cookie_domain: home
+      - model: authentik_core.application
+        identifiers:
+          slug: forwardauth
+        state: present
+        attrs:
+          name: Forward Auth
+          slug: forwardauth
+          provider: !KeyOf forwardauth-provider
+      - model: authentik_outposts.outpost
+        identifiers:
+          name: authentik Embedded Outpost
+        state: present
+        attrs:
+          providers:
+            - !KeyOf forwardauth-provider
