@@ -160,3 +160,6 @@ data:
         attrs:
           providers:
             - !KeyOf forwardauth-provider
+          config:
+            authentik_host: https://auth.home
+            authentik_host_browser: https://auth.home
