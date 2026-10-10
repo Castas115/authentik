@@ -47,6 +47,12 @@ spec:
             - name: IMMICH_CLIENT_SECRET
               valueFrom:
                 secretKeyRef: { name: authentik-oidc-secrets, key: IMMICH_CLIENT_SECRET }
+            - name: ACTUAL_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef: { name: authentik-oidc-secrets, key: ACTUAL_CLIENT_SECRET }
+            - name: ARGOCD_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef: { name: authentik-oidc-secrets, key: ARGOCD_CLIENT_SECRET }
           ports:
             - name: http
               containerPort: 9000
