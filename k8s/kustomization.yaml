@@ -6,6 +6,8 @@ namespace: authentik
 resources:
   - 10-storage.yaml
   - 20-sealed-secret.yaml
+  - 22-oidc-sealed-secret.yaml
+  - 25-blueprints.yaml
   - 30-postgres.yaml
   - 40-redis.yaml
   - 50-authentik-server.yaml

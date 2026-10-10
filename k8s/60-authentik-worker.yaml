@@ -44,6 +44,16 @@ spec:
                 secretKeyRef: { name: authentik-secrets, key: POSTGRES_PASSWORD }
             - name: AUTHENTIK_REDIS__HOST
               value: authentik-redis
+            - name: IMMICH_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef: { name: authentik-oidc-secrets, key: IMMICH_CLIENT_SECRET }
           resources:
             requests: { cpu: 100m, memory: 256Mi }
             limits: { memory: 1Gi }
+          volumeMounts:
+            - name: blueprints
+              mountPath: /blueprints/custom
+      volumes:
+        - name: blueprints
+          configMap:
+            name: authentik-blueprints
