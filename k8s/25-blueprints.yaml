@@ -14,7 +14,7 @@ data:
           default: true
         state: present
         attrs:
-          domain: auth.home
+          domain: auth.lan.home
   immich.yaml: |
     version: 1
     metadata:
@@ -34,9 +34,9 @@ data:
           client_secret: !Env IMMICH_CLIENT_SECRET
           redirect_uris:
             - matching_mode: strict
-              url: https://immich.home/auth/login
+              url: https://immich.lan.home/auth/login
             - matching_mode: strict
-              url: https://immich.home/user-settings
+              url: https://immich.lan.home/user-settings
           sub_mode: hashed_user_id
           include_claims_in_id_token: true
           grant_types:
@@ -73,7 +73,7 @@ data:
           client_secret: !Env ACTUAL_CLIENT_SECRET
           redirect_uris:
             - matching_mode: strict
-              url: https://actual.home/openid/callback
+              url: https://actual.lan.home/openid/callback
           sub_mode: hashed_user_id
           include_claims_in_id_token: true
           grant_types:
@@ -111,7 +111,7 @@ data:
           signing_key: !Find [authentik_crypto.certificatekeypair, [name, "authentik Self-signed Certificate"]]
           redirect_uris:
             - matching_mode: strict
-              url: https://argocd.home/auth/callback
+              url: https://argocd.lan.home/auth/callback
           sub_mode: hashed_user_id
           include_claims_in_id_token: true
           grant_types:
@@ -144,8 +144,8 @@ data:
           authorization_flow: !Find [authentik_flows.flow, [slug, default-provider-authorization-implicit-consent]]
           invalidation_flow: !Find [authentik_flows.flow, [slug, default-provider-invalidation-flow]]
           mode: forward_domain
-          external_host: https://auth.home
-          cookie_domain: home
+          external_host: https://auth.lan.home
+          cookie_domain: lan.home
       - model: authentik_core.application
         identifiers:
           slug: forwardauth
@@ -162,5 +162,5 @@ data:
           providers:
             - !KeyOf forwardauth-provider
           config:
-            authentik_host: https://auth.home
-            authentik_host_browser: https://auth.home
+            authentik_host: https://auth.lan.home
+            authentik_host_browser: https://auth.lan.home
