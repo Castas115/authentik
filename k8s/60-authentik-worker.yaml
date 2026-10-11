@@ -53,6 +53,9 @@ spec:
             - name: ARGOCD_CLIENT_SECRET
               valueFrom:
                 secretKeyRef: { name: authentik-oidc-secrets, key: ARGOCD_CLIENT_SECRET }
+            - name: JELLYFIN_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef: { name: authentik-oidc-secrets, key: JELLYFIN_CLIENT_SECRET }
           resources:
             requests: { cpu: 100m, memory: 256Mi }
             limits: { memory: 1Gi }
