@@ -56,6 +56,9 @@ spec:
             - name: JELLYFIN_CLIENT_SECRET
               valueFrom:
                 secretKeyRef: { name: authentik-oidc-secrets, key: JELLYFIN_CLIENT_SECRET }
+            - name: WGER_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef: { name: authentik-oidc-secrets, key: WGER_CLIENT_SECRET }
           resources:
             requests: { cpu: 100m, memory: 256Mi }
             limits: { memory: 1Gi }
