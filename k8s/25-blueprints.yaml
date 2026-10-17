@@ -87,6 +87,8 @@ data:
               url: https://immich.lan.home/auth/login
             - matching_mode: strict
               url: https://immich.lan.home/user-settings
+            - matching_mode: strict
+              url: app.immich:///oauth-callback
           sub_mode: hashed_user_id
           include_claims_in_id_token: true
           grant_types:
